@@ -23,6 +23,16 @@ const HomeScreen = () => {
         }
     };
 
+    const removePlayer = (name) => {
+        const playersCpy = [...players];
+
+        playersCpy.splice(
+            playersCpy.find(p => p.name === name),
+            1
+        );
+        setPlayers(playersCpy);
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -36,8 +46,8 @@ const HomeScreen = () => {
                     <FlatList
                         key={'_'}
                         data={players}
-                        renderItem={({item}) => <Player name={item.name}/>}
-                        numColumns={2}
+                        renderItem={({item}) => <Player key={item.id} name={item.name} removePlayer={removePlayer} />}
+                        numColumns={3}
                     />
                 </View>
                 <View style={ bottom }>
@@ -83,7 +93,8 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 10
     },
     bottom: {
         flex: 1,
