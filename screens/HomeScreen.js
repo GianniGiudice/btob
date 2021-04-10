@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, FlatList, Button, SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { StatusBar } from "expo-status-bar";
 import { Player } from "../components/Player";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const HomeScreen = () => {
     const [players, setPlayers] = useState([]);
     const [name, setName] = useState('');
     const [id, setId] = useState(1);
 
-    const { container, top, logo, middle, bottom, input, addButton, buttonText, invalidBtn } = styles;
+    const { container, top, logo, middle, bottom, input, addButton, buttonText, invalidBtn, start } = styles;
 
     const addPlayer = () => {
         let nameLength = name.length;
@@ -35,7 +36,7 @@ const HomeScreen = () => {
 
     return (
         <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "if2a951os" ? "padding" : "height"}
             style={styles.container}
         >
             <SafeAreaView style={ container }>
@@ -63,6 +64,9 @@ const HomeScreen = () => {
                             <Text style={ buttonText }>+</Text>
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity>
+                         <Text style={ [ start, players.length < 2 ? invalidBtn : '' ] }><Icon name="glass-cheers" size={24} color="#fff" /> C'est parti !</Text>
+                    </TouchableOpacity>
                 </View>
                 <StatusBar hidden  />
             </SafeAreaView>
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 10
+        paddingTop: 20
     },
     bottom: {
         flex: 1,
@@ -124,7 +128,22 @@ const styles = StyleSheet.create({
         fontSize: 28
     },
     invalidBtn: {
-        backgroundColor: 'grey'
+        backgroundColor: 'grey',
+        borderWidth: 0
+    },
+    start: {
+        fontSize: 24,
+        color: '#fff',
+        fontWeight: 'bold',
+        marginTop: 20,
+        borderWidth: 1,
+        borderColor: '#f2a951',
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+        borderRadius: 10,
+        backgroundColor: '#f2a951'
     }
 });
 
