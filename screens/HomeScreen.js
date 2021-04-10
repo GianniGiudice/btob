@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import Icon from "react-native-vector-icons/FontAwesome5";
 import { StyleSheet, Text, View, Image, TextInput, FlatList, Button, SafeAreaView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { StatusBar } from "expo-status-bar";
 import { Player } from "../components/Player";
-import Icon from "react-native-vector-icons/FontAwesome5";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     const [players, setPlayers] = useState([]);
     const [name, setName] = useState('');
     const [id, setId] = useState(1);
 
     const { container, top, logo, middle, bottom, input, addButton, buttonText, invalidBtn, start } = styles;
+
+    useEffect(() => {
+        let p = [];
+        if (navigation.getParam('players')) {
+            p = navigation.getParam('players');
+        }
+        setPlayers(p);
+    }, []);
 
     const addPlayer = () => {
         let nameLength = name.length;
@@ -64,7 +72,7 @@ const HomeScreen = () => {
                             <Text style={ buttonText }>+</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('GameChoice', {players: players})}>
                          <Text style={ [ start, players.length < 2 ? invalidBtn : '' ] }><Icon name="glass-cheers" size={24} color="#fff" /> C'est parti !</Text>
                     </TouchableOpacity>
                 </View>

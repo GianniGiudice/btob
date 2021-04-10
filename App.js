@@ -1,22 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import {NavigationContainer} from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
+import {createSwitchNavigator, createAppContainer} from "react-navigation";
+import GameChoiceScreen from "./screens/GameChoiceScreen";
 
-const Stack = createStackNavigator();
+const App = createSwitchNavigator(
+    {
+        Home: HomeScreen,
+        GameChoice: GameChoiceScreen
+    },
+    {
+        initialRouteName: 'Home'
+    }
+);
 
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-            name="Home"
-            component={ HomeScreen }
-            options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
-
-export default App;
+export default createAppContainer(App);
