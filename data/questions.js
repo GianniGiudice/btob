@@ -1,4 +1,4 @@
-export let questions = {
+export let questionsData = {
     'soft': [
         'Qui est le moins modeste ?',
         'Qui est le plus courageux ?',

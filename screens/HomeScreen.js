@@ -9,7 +9,7 @@ const HomeScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [id, setId] = useState(1);
 
-    const { container, top, logo, middle, bottom, input, addButton, buttonText, invalidBtn, start } = styles;
+    const { container, top, logo, middle, bottom, nbPlayers, input, addButton, buttonText, invalidBtn, start } = styles;
 
     useEffect(() => {
         let p = [];
@@ -32,13 +32,23 @@ const HomeScreen = ({ navigation }) => {
         }
     };
 
-    const removePlayer = (name) => {
-        const playersCpy = [...players];
+    const removeByAttr = (arr, attr, value) => {
+        let i = arr.length;
+        while (i--) {
+            if( arr[i]
+                && arr[i].hasOwnProperty(attr)
+                && (arguments.length > 2 && arr[i][attr] === value ) ) {
+                arr.splice(i,1);
+            }
+        }
+        return arr;
+    };
 
-        playersCpy.splice(
-            playersCpy.find(p => p.name === name),
-            1
-        );
+
+    const removePlayer = (name) => {
+        let playersCpy = [...players];
+        
+        playersCpy = removeByAttr(playersCpy, 'name', name);
         setPlayers(playersCpy);
     };
 
@@ -60,6 +70,9 @@ const HomeScreen = ({ navigation }) => {
                     />
                 </View>
                 <View style={ bottom }>
+                    <View>
+                        <Text style={ nbPlayers }>Joueurs : {players.length} / 10</Text>
+                    </View>
                     <View style={{ flexDirection: 'row', height: 40 }}>
                         <TextInput
                             style={ input }
@@ -72,7 +85,11 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={ buttonText }>+</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('GameChoice', {players: players})}>
+                    <TouchableOpacity onPress={() => {
+                        if (players.length >= 2) {
+                            navigation.navigate('GameChoice', {players: players});
+                        }
+                    }}>
                          <Text style={ [ start, players.length < 2 ? invalidBtn : '' ] }><Icon name="glass-cheers" size={24} color="#fff" /> C'est parti !</Text>
                     </TouchableOpacity>
                 </View>
@@ -113,6 +130,11 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    nbPlayers: {
+        color: '#fff',
+        marginBottom: 10,
+        fontWeight: 'bold'
     },
     input: {
         height: 40,
